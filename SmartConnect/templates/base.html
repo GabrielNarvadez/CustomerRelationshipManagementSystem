@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="en" data-bs-theme="blue-theme">
+
+{% load static %}
+
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}Maxton | Bootstrap 5 Admin Dashboard Template{% endblock %}</title>
+  
+  <!--favicon-->
+  <link rel="icon" href="{% static 'assets/images/favicon-32x32.png' %}" type="image/png">
+  
+  <!--loader-->
+  <link href="{% static 'assets/css/pace.min.css' %}" rel="stylesheet">
+  <script src="{% static 'assets/js/pace.min.js' %}"></script>
+  
+  <!--plugins-->
+  <link href="{% static 'assets/plugins/perfect-scrollbar/css/perfect-scrollbar.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/plugins/metismenu/metisMenu.min.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/plugins/metismenu/mm-vertical.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/plugins/simplebar/css/simplebar.css' %}" rel="stylesheet">
+  
+  <!--bootstrap css-->
+  <link href="{% static 'assets/css/bootstrap.min.css' %}" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Material+Icons+Outlined" rel="stylesheet">
+  
+  <!--main css-->
+  <link href="{% static 'assets/css/bootstrap-extended.css' %}" rel="stylesheet">
+  <link href="{% static 'sass/main.css' %}" rel="stylesheet">
+  <link href="{% static 'sass/dark-theme.css' %}" rel="stylesheet">
+  <link href="{% static 'sass/blue-theme.css' %}" rel="stylesheet">
+  <link href="{% static 'sass/semi-dark.css' %}" rel="stylesheet">
+  <link href="{% static 'sass/bordered-theme.css' %}" rel="stylesheet">
+  <link href="{% static 'sass/responsive.css' %}" rel="stylesheet">
+
+  {% block extra_head %}{% endblock %}
+</head>
+<body>
+    <!-- Navigation (Directly in base.html) -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">My Application</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="/">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/about/">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/contact/">Contact</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container mt-4">
+        {% block content %}
+        <!-- Page content goes here -->
+        {% endblock %}
+    </div>
+
+    <!-- Footer (Directly in base.html) -->
+    <footer class="footer mt-auto py-3 bg-light">
+        <div class="container">
+            <span class="text-muted">&copy; 2024 My Application. All rights reserved.</span>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="{% static 'assets/js/bootstrap.bundle.min.js' %}"></script>
+    <script src="{% static 'assets/js/jquery.min.js' %}"></script>
+    <script src="{% static 'assets/plugins/perfect-scrollbar/js/perfect-scrollbar.js' %}"></script>
+    <script src="{% static 'assets/plugins/metismenu/metisMenu.min.js' %}"></script>
+    <script src="{% static 'assets/plugins/apexchart/apexcharts.min.js' %}"></script>
+    <script src="{% static 'assets/plugins/simplebar/js/simplebar.min.js' %}"></script>
+    <script src="{% static 'assets/plugins/peity/jquery.peity.min.js' %}"></script>
+    <script src="{% static 'assets/js/main.js' %}"></script>
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+          // Chart for chart1
+          var options1 = {
+              chart: {
+                  type: 'bar', // Type of chart: bar, line, pie, etc.
+                  height: 350
+              },
+              series: [{
+                  name: 'Active Users',
+                  data: [10, 15, 12, 20, 18, 25] // Data for the chart
+              }],
+              xaxis: {
+                  categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'] // X-axis categories
+              }
+          };
+  
+          var chart1 = new ApexCharts(document.querySelector("#chart1"), options1);
+          chart1.render();
+  
+          // Chart for chart2
+          var options2 = {
+              chart: {
+                  type: 'line', // Type of chart: line
+                  height: 350
+              },
+              series: [{
+                  name: 'Total Users',
+                  data: [5, 10, 15, 20, 25, 30] // Data for the chart
+              }],
+              xaxis: {
+                  categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'] // X-axis categories
+              }
+          };
+  
+          var chart2 = new ApexCharts(document.querySelector("#chart2"), options2);
+          chart2.render();
+      });
+  </script>
+  
+    
+    {% block scripts %}
+    <script>
+        new PerfectScrollbar(".user-list");
+    </script>
+    {% endblock %}
+</body>
+</html>

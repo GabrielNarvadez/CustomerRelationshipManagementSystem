@@ -7,19 +7,54 @@ $(function () {
   /* scrollar */
 
   new PerfectScrollbar(".notify-list")
-  new PerfectScrollbar(".scroll-menu");
+
   new PerfectScrollbar(".search-content")
 
+  // new PerfectScrollbar(".mega-menu-widgets")
 
-  // Active menu
 
-  $(function() {
-		for (var e = window.location, o = $(".navbar-nav .dropdown-item").filter(function() {
-				return this.href == e
-			}).addClass("active").parent().addClass("active"); o.is("li");) o = o.parent("").addClass("").parent("").addClass("")
-	}),
 
-  
+  /* toggle button */
+
+  $(".btn-toggle").click(function () {
+    $("body").hasClass("toggled") ? ($("body").removeClass("toggled"), $(".sidebar-wrapper").unbind("hover")) : ($("body").addClass("toggled"), $(".sidebar-wrapper").hover(function () {
+      $("body").addClass("sidebar-hovered")
+    }, function () {
+      $("body").removeClass("sidebar-hovered")
+    }))
+  })
+
+
+
+
+  /* menu */
+
+  $(function () {
+    $('#sidenav').metisMenu();
+  });
+
+  $(".sidebar-close").on("click", function () {
+    $("body").removeClass("toggled")
+  })
+
+
+
+  /* dark mode button */
+
+  $(".dark-mode i").click(function () {
+    $(this).text(function (i, v) {
+      return v === 'dark_mode' ? 'light_mode' : 'dark_mode'
+    })
+  });
+
+
+  $(".dark-mode").click(function () {
+    $("html").attr("data-bs-theme", function (i, v) {
+      return v === 'dark' ? 'light' : 'dark';
+    })
+  })
+
+
   /* sticky header */
 
   $(document).ready(function () {
@@ -104,25 +139,15 @@ $(function () {
   });
 
 
-  
-// dropdown slide
 
-  $('.dropdown-menu a.dropdown-toggle').on('click', function(e) {
-		if (!$(this).next().hasClass('show')) {
-		  $(this).parents('.dropdown-menu').first().find('.show').removeClass("show");
-		}
-		var $subMenu = $(this).next(".dropdown-menu");
-		$subMenu.toggleClass('show');
-	  
-	  
-		$(this).parents('li.nav-item.dropdown.show').on('hidden.bs.dropdown', function(e) {
-		  $('.submenu .show').removeClass("show");
-		});
-	  
-	  
-		return false;
-	  });
 
+  /* menu active */
+
+  $(function () {
+    for (var e = window.location, o = $(".metismenu li a").filter(function () {
+      return this.href == e
+    }).addClass("").parent().addClass("mm-active"); o.is("li");) o = o.parent("").addClass("mm-show").parent("").addClass("mm-active")
+  });
 
 
 

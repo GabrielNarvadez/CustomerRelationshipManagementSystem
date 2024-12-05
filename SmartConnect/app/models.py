@@ -1,18 +1,26 @@
 from django.db import models
 
-
 class Customer(models.Model):
-    """
-    Model to store customer information.
-    """
-    id = models.CharField(max_length=50, primary_key=True)  # Custom ID for customers
-    name = models.CharField(max_length=255)  # Full name of the customer
-    email = models.EmailField(unique=True)  # Unique email address
-    phone = models.CharField(max_length=15, null=True, blank=True)  # Phone number
-    created_at = models.DateTimeField(auto_now_add=True)  # Timestamp for when the customer was added
+    STATUS_CHOICES = [
+        ('pending', 'Pending'),
+        ('completed', 'Completed'),
+        ('failed', 'Failed'),
+    ]
+
+    id = models.CharField(max_length=100, primary_key=True)  # Assuming ID is a string
+    name = models.CharField(max_length=255)
+    email = models.EmailField()
+    phone = models.CharField(max_length=15, blank=True, null=True)  # Optional field
+    item_name = models.CharField(max_length=255, blank=True, null=True)  # Optional field
+    amount = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)  # Optional field for monetary values
+    customer_comments = models.TextField(blank=True, null=True)  # Optional field
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='pending')
+    ai_analysis = models.TextField(blank=True, null=True)  # Optional field for AI-generated analysis
+    created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return self.name
+        return f"{self.name} ({self.id})"
+
 
 
 class Task(models.Model):

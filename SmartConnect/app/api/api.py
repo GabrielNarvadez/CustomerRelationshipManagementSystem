@@ -3,7 +3,6 @@ from rest_framework.response import Response
 from rest_framework import status
 from app.models import Customer, Task
 from app.tasks.sentiment_analysis import analyze_sentiment
-from app.tasks.clustering import perform_clustering
 
 # Customer Endpoints
 @api_view(['POST'])
@@ -119,16 +118,3 @@ def analyze_feedback(request):
         return Response({"error": "Feedback text is required"}, status=status.HTTP_400_BAD_REQUEST)
     sentiment = analyze_sentiment(feedback)
     return Response(sentiment, status=status.HTTP_200_OK)
-
-# Clustering Endpoint
-@api_view(['POST'])
-def cluster_customers_endpoint(request):
-    data = request.data.get('customers', [])
-    num_clusters = int(request.data.get('num_clusters', 2))
-    if not data or not isinstance(data, list):
-        return Response({"error": "Valid customer data is required"}, status=status.HTTP_400_BAD_REQUEST)
-    try:
-        clustered_data = perform_clustering(data, num_clusters)
-        return Response(clustered_data, status=status.HTTP_200_OK)
-    except ValueError as e:
-        return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)

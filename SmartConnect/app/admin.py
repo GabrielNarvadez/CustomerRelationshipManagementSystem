@@ -4,9 +4,11 @@ from .models import Customer, Task, Feedback, ClusteredCustomer
 
 @admin.register(Customer)
 class CustomerAdmin(admin.ModelAdmin):
-    list_display = ('id', 'name', 'email', 'phone', 'created_at')
-    search_fields = ('name', 'email')
-
+    list_display = ('id', 'name', 'email', 'item_name', 'amount', 'customer_comments', 'status', 'created_at')
+    fields = ('id', 'name', 'email', 'phone', 'item_name', 'amount', 'customer_comments', 'status', 'ai_analysis')
+    search_fields = ('id', 'name', 'email', 'item_name')
+    list_filter = ('status', 'created_at')
+    ordering = ('-created_at',)
 
 @admin.register(Task)
 class TaskAdmin(admin.ModelAdmin):

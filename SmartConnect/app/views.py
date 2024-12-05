@@ -16,6 +16,10 @@ import json
 from app.models import Customer, Task
 from app.tasks.sentiment_analysis import analyze_sentiment
 
+from django.shortcuts import render, redirect
+from .models import Task
+import heapq
+
 
 
 # Add these global variables
@@ -40,13 +44,68 @@ def index(request):
 
 
 
-def tasks(request): 
-    return render(request, 'app/tasks.html') 
+def tasks(request):
+    if request.method == 'POST':
+        if 'delete_task' in request.POST:
+            # Handle task deletion
+            task_id = request.POST.get('delete_task')
+            Task.objects.filter(id=task_id).delete()
+            return redirect('tasks')
+
+        elif 'task_id' in request.POST:
+            # Handle updates
+            task_id = request.POST.get('task_id')
+            task = Task.objects.get(id=task_id)
+
+            # Update priority if provided
+            if 'priority' in request.POST and request.POST['priority']:
+                task.priority = int(request.POST['priority'])
+
+            # Update is_completed status
+            task.is_completed = 'is_completed' in request.POST
+
+            # Save the task
+            task.save()
+            return redirect('tasks')
+
+        elif 'task_name' in request.POST:
+            # Add new task
+            task_name = request.POST.get('task_name')
+            priority = request.POST.get('priority', 1)  # Default priority to 1 if not provided
+            is_completed = 'is_completed' in request.POST
+            Task.objects.create(task_name=task_name, priority=int(priority), is_completed=is_completed)
+            return redirect('tasks')
+
+    # Sorting logic with a heap
+    all_tasks = list(Task.objects.all())
+    heap = []
+    sort_order = request.GET.get('sort', 'asc')
+
+    if sort_order == 'desc':
+        # Max-heap for descending order
+        for task in all_tasks:
+            heapq.heappush(heap, (-task.priority, task.id))  # Store task ID as a reference
+        sorted_task_ids = [heapq.heappop(heap)[1] for _ in range(len(heap))]
+    else:
+        # Min-heap for ascending order
+        for task in all_tasks:
+            heapq.heappush(heap, (task.priority, task.id))  # Store task ID as a reference
+        sorted_task_ids = [heapq.heappop(heap)[1] for _ in range(len(heap))]
+
+    # Retrieve sorted tasks based on IDs
+    tasks_list = [Task.objects.get(id=task_id) for task_id in sorted_task_ids]
+
+    return render(request, 'app/tasks.html', {
+        'tasks': tasks_list,
+        'sort_order': sort_order
+    })
 
 def invoice(request): 
     return render(request, 'app/invoice.html') 
 # In-memory dictionary to cache customer data
 customer_db = {}
+
+
 
 def sync_customer_db():
     """Synchronize in-memory data with the database."""

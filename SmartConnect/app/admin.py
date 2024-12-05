@@ -12,9 +12,10 @@ class CustomerAdmin(admin.ModelAdmin):
 
 @admin.register(Task)
 class TaskAdmin(admin.ModelAdmin):
-    list_display = ('id', 'description', 'priority', 'status', 'created_at')
-    list_filter = ('status', 'priority')
-    search_fields = ('description',)
+    list_display = ('task_name', 'priority', 'is_completed')
+    list_filter = ('is_completed', 'priority')
+    search_fields = ('task_name',)
+    ordering = ('priority',)
 
 
 @admin.register(Feedback)

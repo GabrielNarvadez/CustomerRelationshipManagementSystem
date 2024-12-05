@@ -22,23 +22,14 @@ class Customer(models.Model):
         return f"{self.name} ({self.id})"
 
 
-
 class Task(models.Model):
-    """
-    Model to store tasks with priority and status.
-    """
-    id = models.CharField(max_length=50, primary_key=True)  # Custom ID for tasks
-    description = models.TextField()  # Task description
-    priority = models.PositiveIntegerField(default=0)  # Priority (lower number = higher priority)
-    status = models.CharField(
-        max_length=20,
-        choices=[('pending', 'Pending'), ('in_progress', 'In Progress'), ('completed', 'Completed')],
-        default='pending'
-    )  # Task status
-    created_at = models.DateTimeField(auto_now_add=True)  # Timestamp for when the task was created
+    task_name = models.CharField(max_length=255)
+    is_completed = models.BooleanField(default=False)
+    priority = models.IntegerField(default=0)
 
     def __str__(self):
-        return f"{self.description} (Priority: {self.priority})"
+        return self.title
+
 
 
 class Feedback(models.Model):

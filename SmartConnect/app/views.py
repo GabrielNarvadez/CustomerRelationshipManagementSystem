@@ -5,7 +5,6 @@ import json
 
 from django.shortcuts import render, redirect, get_object_or_404
 from app.models import Customer, Task
-from app.tasks.sentiment_analysis import analyze_sentiment
 from django.http import JsonResponse
 from django.urls import reverse
 from django.shortcuts import render, redirect, get_object_or_404
@@ -14,8 +13,6 @@ from django.views.decorators.csrf import csrf_protect, csrf_exempt
 import json
 
 from app.models import Customer, Task
-from app.tasks.sentiment_analysis import analyze_sentiment
-
 from django.shortcuts import render, redirect
 from .models import Task
 import heapq
